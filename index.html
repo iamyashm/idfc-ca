@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tailored Bundles to Fit Your Business • IDFC FIRST (Demo)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            maroon: '#4a0010',           // deep maroon
+            maroonDark: '#2a0009',       // deeper maroon
+            goldAcc: '#cdb891',          // muted gold for borders only
+            goldText: '#ede7db',         // subtle white-ish gold for text
+            whitegold: '#f3eee3',        // soft tag/controls bg
+            cream: '#fffaf2'
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial']
+          },
+          boxShadow: {
+            glow: '0 12px 34px rgba(205, 184, 145, 0.32)'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    .carousel-track { scroll-snap-type: x mandatory; }
+    .carousel-card { scroll-snap-align: center; }
+    .glass { background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92)); backdrop-filter: blur(8px); }
+    @keyframes floatUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: floatUp .8s ease forwards; }
+    .tag { display:inline-flex; align-items:center; gap:.5rem; background-color:#f3eee3; color:#4a0010; font-weight:700; font-size:.75rem; padding:.25rem .75rem; border-radius:9999px; border:1px solid rgba(205,184,145,.55); box-shadow:0 6px 16px rgba(205,184,145,.18); }
+    .btn-primary { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background-color:#4a0010; color:#fff; font-weight:700; padding:.9rem 1.25rem; border-radius:1rem; box-shadow:0 12px 34px rgba(205,184,145,.28); transition:filter .2s; }
+    .btn-primary:hover { filter:brightness(1.05); }
+    .btn-cta { display:inline-flex; align-items:center; justify-content:center; width:100%; background-color:#4a0010; color:#fff; font-weight:800; font-size:1.12rem; padding:1.15rem 1.25rem; border-radius:1.25rem; box-shadow:0 16px 36px rgba(74,0,16,.35); }
+    /* Subtle highlight behind logo to merge with hero */
+    .hero-highlight { background: radial-gradient(700px 320px at 100px 65px, rgba(237,231,219,0.16), transparent 70%); }
+    /* Fallback styling if images fail */
+    .fallback-bg { background: radial-gradient(1200px 400px at 0% 0%, rgba(237,231,219,.25), transparent), linear-gradient(135deg, #4a0010 0%, #2a0009 100%); }
+  </style>
+</head>
+<body class="font-sans text-slate-900 bg-gradient-to-br from-maroon via-maroon to-maroonDark min-h-screen">
+  <!-- Minimal Top Bar / Logo only -->
+  <header class="bg-maroon text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center">
+      <img id="idfcLogo" src="https://www.idfcfirstbank.com/content/dam/idfcfirstbank/images/n1/IDFC-logo-website.svg" alt="IDFC FIRST Bank" class="h-10 w-auto"/>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden">
+    <!-- Deep maroon gradient + subtle white-gold wash merging with logo -->
+
+    <div class="absolute inset-0 hero-highlight pointer-events-none"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-left">
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight fade-in" style="color:#ede7db">Tailored Bundles to Fit Your Business</h1>
+      <p class="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl fade-in" style="color:#ede7db;opacity:.9;animation-delay:.1s">Designed to give you back more value, speed, and growth.</p>
+
+      <!-- Carousel / Grid -->
+      <div class="mt-8 md:mt-12">
+        <div class="relative">
+          <!-- Left/Right Buttons (visible on mobile/tablet) -->
+          <button id="prevBtn" class="lg:hidden absolute -left-2 top-1/2 -translate-y-1/2 z-10 bg-white text-maroon hover:bg-whitegold border border-goldAcc shadow-lg w-11 h-11 rounded-full flex items-center justify-center" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+          <button id="nextBtn" class="lg:hidden absolute -right-2 top-1/2 -translate-y-1/2 z-10 bg-white text-maroon hover:bg-whitegold border border-goldAcc shadow-lg w-11 h-11 rounded-full flex items-center justify-center" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+
+          <div id="carouselTrack" class="carousel-track flex lg:grid lg:grid-cols-4 gap-6 overflow-x-auto lg:overflow-visible pb-4 snap-x lg:snap-none scroll-smooth px-1 md:px-2">
+
+            <!-- Card 1: EXIM / Forex -->
+            <article class="carousel-card min-w-[88%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-0 glass rounded-2xl shadow-xl border border-goldAcc/60 overflow-hidden text-left">
+              <div class="relative h-44 sm:h-56">
+                <!-- Provided image (global trade) -->
+                <img data-fallback-icon="globe" src="ForexMerchant.png" alt="Global trade: cargo ship and containers" class="w-full h-full object-cover" loading="lazy"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-maroonDark/80 via-transparent"></div>
+                <div class="absolute top-3 right-3 tag"><i class="fa-solid fa-globe"></i> Forex</div>
+                <div class="absolute bottom-3 left-4 text-white pr-3">
+                  <h3 class="text-xl font-bold">EXIM FX Freedom Bundle</h3>
+                  <p class="text-sm opacity-90">Zero Forex Markup on Inward & Outward Remittances</p>
+                </div>
+              </div>
+              <div class="p-5">
+                <p class="text-slate-700">Limitless trade for you</p>
+              </div>
+            </article>
+
+            <!-- Card 2: Merchant Power Bundle (Clickable) -->
+            <a href="#/merchant-power" id="merchantCard" class="carousel-card group min-w-[88%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-0 glass rounded-2xl shadow-xl border border-goldAcc/60 overflow-hidden text-left hover:shadow-glow transition">
+              <div class="relative h-44 sm:h-56">
+                <!-- Provided image (POS/QR) -->
+                <img data-fallback-icon="qrcode" src="MerchantPowerBundle.png" alt="Indian retailer accepting payment via PoS & QR" class="w-full h-full object-cover group-hover:scale-[1.03] transition" loading="lazy"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-maroonDark/80 via-transparent"></div>
+                <div class="absolute top-3 right-3 tag"><i class="fa-solid fa-qrcode"></i> Digital Collections</div>
+                <div class="absolute bottom-3 left-4 text-white pr-3">
+                  <h3 class="text-xl font-bold">Merchant Power Bundle</h3>
+                  <p class="text-sm opacity-90">Only 1% MDR on PoS Collections</p>
+                </div>
+              </div>
+              <div class="p-5">
+                <p class="text-slate-700">Transact more, save more</p>
+              </div>
+            </a>
+
+            <!-- Card 3: Doorstep Banking -->
+            <article class="carousel-card min-w-[88%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-0 glass rounded-2xl shadow-xl border border-goldAcc/60 overflow-hidden text-left">
+              <div class="relative h-44 sm:h-56">
+                <!-- Provided image (doorstep banking / logistics) -->
+                <img data-fallback-icon="truck" src="TradeServices.png" alt="Doorstep banking and cash collections" class="w-full h-full object-cover" loading="lazy"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-maroonDark/80 via-transparent"></div>
+                <div class="absolute top-3 right-3 tag"><i class="fa-solid fa-person-walking-luggage"></i> Doorstep Banking</div>
+                <div class="absolute bottom-3 left-4 text-white pr-3">
+                  <h3 class="text-xl font-bold">Trade & Service Advantage Bundle</h3>
+                  <p class="text-sm opacity-90">Zero Cost Doorstep Cash Pickup</p>
+                </div>
+              </div>
+              <div class="p-5">
+                <p class="text-slate-700">Free cash pickup, right from your doorstep</p>
+              </div>
+            </article>
+
+            <!-- Card 4: Working Capital -->
+            <article class="carousel-card min-w-[88%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-0 glass rounded-2xl shadow-xl border border-goldAcc/60 overflow-hidden text-left">
+              <div class="relative h-44 sm:h-56">
+                <!-- Provided image (manufacturing) -->
+                <img data-fallback-icon="industry" src="DigitalLoan.png" alt="Indian manufacturing industry" class="w-full h-full object-cover" loading="lazy"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-maroonDark/80 via-transparent"></div>
+                <div class="absolute top-3 right-3 tag"><i class="fa-solid fa-industry"></i> Working Capital</div>
+                <div class="absolute bottom-3 left-4 text-white pr-3">
+                  <h3 class="text-xl font-bold">Manufacturer Growth Bundle</h3>
+                  <p class="text-sm opacity-90">Collateral-free Instant Overdraft</p>
+                </div>
+              </div>
+              <div class="p-5">
+                <p class="text-slate-700">Instant credit at a click</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MERCHANT POWER PAGE (Hash-routed: #/merchant-power) -->
+  <main id="merchantPage" class="hidden text-left">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+
+      <!-- Full-width intro stripe (deep maroon) -->
+      <div class="rounded-3xl overflow-hidden shadow-xl border border-goldAcc/60 bg-gradient-to-r from-maroon to-maroonDark mb-8">
+        <div class="p-6 md:p-10 text-left">
+          <h2 class="text-2xl md:text-4xl font-extrabold" style="color:#ede7db">Merchant Power Bundle</h2>
+          <p class="mt-2 text-lg" style="color:#ede7db;opacity:.95">Now you transact more, save more.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- LEFT: Combined Intro Card + What's in the Bundle, then Why Switch -->
+        <div class="lg:w-1/2 space-y-6">
+          <!-- Combined card: image + What's in the Merchant Power Bundle? (maroon gradient, white-gold text) -->
+          <div class="rounded-3xl overflow-hidden shadow-xl border border-goldAcc/60 bg-gradient-to-br from-maroon to-maroonDark text-goldText">
+            <img data-fallback-icon="qrcode" src="newAccountOpening.png" alt="Indian merchant with PoS" class="w-full h-94 object-cover" loading="lazy"/>
+            <div class="p-6">
+              <h3 class="text-xl md:text-2xl font-extrabold">What’s in the Merchant Power Bundle?</h3>
+              <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="rounded-2xl p-4 bg-white border border-goldAcc/60 shadow-sm text-left">
+                  <div class="text-maroon font-bold">1% MDR</div>
+                  <p class="text-sm text-slate-600">Instant settlement, basis QR collections.</p>
+                </div>
+                <div class="rounded-2xl p-4 bg-white border border-goldAcc/60 shadow-sm text-left">
+                  <div class="text-maroon font-bold">Instant Loans</div>
+                  <p class="text-sm text-slate-600">LACR, Inventory Funding & more.</p>
+                </div>
+                <div class="rounded-2xl p-4 bg-white border border-goldAcc/60 shadow-sm text-left">
+                  <div class="text-maroon font-bold">Free QR + Soundbox</div>
+                  <p class="text-sm text-slate-600">Delightful in-store experience.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Sliders inside one card -->
+        <div class="lg:w-1/2 space-y-6">
+          <div class="rounded-3xl overflow-hidden shadow-xl border border-goldAcc/60 bg-white">
+            <div class="p-6 border-b border-goldAcc/40">
+              <h3 class="text-xl md:text-2xl font-extrabold text-maroon">How much do I save from Merchant Power Bundle?</h3>
+            </div>
+            <div class="p-6 space-y-6">
+              <!-- Slider 1 -->
+              <div class="p-5 bg-white rounded-2xl border border-goldAcc/40 shadow-sm">
+                <h4 class="font-bold text-maroon">Existing MDR on PoS (%)</h4>
+                <p class="text-sm text-slate-600">Select the MDR % deducted from your PoS Collections.</p>
+                <div class="mt-4 flex items-center gap-3">
+                  <input id="mdr" type="range" min="0" max="2.5" step="0.1" value="0" class="w-full accent-maroon">
+                  <output id="mdrOut" class="w-24 text-right font-semibold">0%</output>
+                </div>
+              </div>
+                  <!-- Slider 2 -->
+                  <div class="p-5 bg-white rounded-2xl border border-goldAcc/40 shadow-sm">
+                    <h4 class="font-bold text-maroon">PoS Collections Amount per Month (₹)</h4>
+                    <p class="text-sm text-slate-600">Select the average monthly collections using PoS.</p>
+                    <div class="mt-4 flex items-center gap-3">
+                      <input id="pos" type="range" min="0" max="5000000" step="100000" value="0" class="w-full accent-maroon">
+                      <output id="posOut" class="w-36 text-right font-semibold">₹0</output>
+                    </div>
+                  </div>
+
+  <!-- Slider 4 -->
+              <div class="p-5 bg-white rounded-2xl border border-goldAcc/40 shadow-sm">
+                <h4 class="font-bold text-maroon">Minimum Average Monthly Balance (₹)</h4>
+                <p class="text-sm text-slate-600">Select the AMB that you want to maintain in your current account. Higher the AMB, higher the savings!</p>
+                <div class="mt-4 flex items-center gap-3">
+                  <input id="amb" type="range" min="0" max="2500000" step="50000" value="0" class="w-full accent-maroon">
+                  <output id="ambOut" class="w-36 text-right font-semibold">₹0</output>
+                </div>
+              </div>
+          
+
+    
+
+              <button id="submitBtn" class="btn-cta">
+                <i class="fa-solid fa-calculator"></i>
+                &nbsp;&nbsp;Calculate my Savings
+              </button>
+
+              <p class="text-xs text-slate-500">Terms &amp; Conditions Apply. To know more about our Merchant Bundle, just give a missed call to 089-4532342.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Savings Result MODAL (premium, simplified) -->
+  <div id="resultModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-2xl mt-16 bg-white rounded-3xl shadow-2xl overflow-hidden border border-goldAcc/60">
+      <div class="grid md:grid-cols-2">
+        <div class="relative">
+          <!-- Provided image for modal -->
+          <img data-fallback-icon="qrcode" src="popupModal_POS.png" alt="Happy Indian retailer using PoS and QR" class="w-full h-94 md:h-full object-cover" loading="lazy"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-maroonDark/40 via-transparent"></div>
+        </div>
+        <div class="p-6 md:p-8">
+          <!-- Single strong line (no header) -->
+          <p id="resultText" class="text-lg md:text-xl font-extrabold text-maroon leading-snug"></p>
+          <div class="mt-6">
+            <a href="https://www.idfcfirstbank.com/common-current-account?lob=business-banking&id=Platinum" target="_blank" class="btn-primary w-full text-center">Get Merchant Power Bundle now <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          </div>
+        </div>
+      </div>
+      <button id="closeModal" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-cream border border-goldAcc text-maroon hover:bg-whitegold" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-16 border-t border-goldAcc/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-sm text-slate-600 flex flex-col sm:flex-row gap-3 items-start justify-between text-left">
+      <div>© <span id="year"></span> IDFC FIRST Bank – Demo UI</div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-maroon">Privacy</a>
+        <a href="#" class="hover:text-maroon">Terms</a>
+        <a href="#" class="hover:text-maroon">Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Helpers
+    const fmtINR = new Intl.NumberFormat('en-IN');
+    const toINR = n => '₹' + fmtINR.format(Math.round(n));
+    const toNumberINR = (n) => {
+  if (n >= 1e7) { // crore and above
+    return `₹${(n / 1e7).toFixed(1)} Cr`;
+  } else if (n >= 1e5) { // lakh and above
+    return `₹${(n / 1e5).toFixed(1)} Lakh`;
+  } else if (n >= 1e3) { // thousand
+    return `₹${(n / 1e3).toFixed(1)}K`;
+  }
+  return `₹${n}`;
+};
+
+    // Logo fallback per provided sources
+    const idfcLogo = document.getElementById('idfcLogo');
+    idfcLogo.addEventListener('error', () => {
+      idfcLogo.src = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Logo_of_IDFC_First_Bank.svg';
+    }, { once: true });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Carousel controls (mobile/tablet only)
+    const track = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    prevBtn?.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
+    nextBtn?.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
+
+    // Simple hash router for Merchant Power page
+    const heroSection = document.querySelector('section.relative');
+    const merchantPage = document.getElementById('merchantPage');
+    function route() {
+      const isMerchant = location.hash === '#/merchant-power';
+      merchantPage.classList.toggle('hidden', !isMerchant);
+      heroSection.classList.toggle('hidden', isMerchant);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.title = isMerchant ? 'Merchant Power Bundle • IDFC FIRST' : 'Tailored Bundles • IDFC FIRST';
+    }
+    window.addEventListener('hashchange', route);
+    route();
+
+    // Sliders + outputs
+    const amb = document.getElementById('amb');
+    const pos = document.getElementById('pos');
+    const mdr = document.getElementById('mdr');
+    const ambOut = document.getElementById('ambOut');
+    const posOut = document.getElementById('posOut');
+    const mdrOut = document.getElementById('mdrOut');
+
+    function updateOutputs() {
+      if (!amb || !mdr || !pos) return;
+      ambOut.textContent = toINR(amb.valueAsNumber);
+      posOut.textContent = toINR(pos.valueAsNumber);
+      mdrOut.textContent = (mdr.valueAsNumber.toFixed(1)) + '%';
+    }
+    ['input', 'change'].forEach(evt => {
+      amb?.addEventListener(evt, updateOutputs);
+      pos?.addEventListener(evt, updateOutputs);
+      mdr?.addEventListener(evt, updateOutputs);
+    });
+    updateOutputs();
+
+    // Savings calculation per spec
+    function calcSavings(AMB, POSv, MDRpct) {
+      const A = (MDRpct - 1) / 100; // convert % to decimal
+      let Bpct = 0.10; // 10%
+      if (AMB >= 50000 && AMB < 200000) Bpct = 0.5; // 3L to <10L
+      if (AMB >= 200000 && AMB < 500000) Bpct = 1.0; // 3L to <10L
+      if (AMB >= 500000 && AMB < 1000000) Bpct = 1.5; // 3L to <10L
+      if (AMB >= 1000000) Bpct = 2.0; // >=10L
+      const monthly = A * Math.min(AMB * Bpct, POSv);
+      const annual = monthly * 12;
+      return { annual };
+    }
+
+    // Submit -> modal + single confetti burst
+    const submitBtn = document.getElementById('submitBtn');
+    const resultModal = document.getElementById('resultModal');
+    const resultText = document.getElementById('resultText');
+    const closeModal = document.getElementById('closeModal');
+
+    function openModal() { resultModal.classList.remove('hidden'); }
+    function hideModal() { resultModal.classList.add('hidden'); }
+
+    closeModal?.addEventListener('click', hideModal);
+    resultModal?.addEventListener('click', e => { if (e.target === resultModal) hideModal(); });
+
+    submitBtn?.addEventListener('click', () => {
+      const AMB = amb.valueAsNumber;
+      const POSv = pos.valueAsNumber;
+      const MDRpct = mdr.valueAsNumber;
+      const { annual } = calcSavings(AMB, POSv, MDRpct);
+
+      // One bold line, with bigger savings number in subtle gold for emphasis
+      const text = `Enjoy annual savings upto <span class="text-3xl md:text-4xl font-black" style="color:#D4AF37">${toINR(annual)}</span> </br> Open your CA with ${toNumberINR(AMB)} AMB and route your collections with IDFC FIRST.`;
+      resultText.innerHTML = text;
+
+      openModal();
+
+      // Single premium burst
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.25 },
+        colors: ['#4a0010', '#ede7db'],
+        scalar: 1.6
+      });
+    });
+
+    // Robust image fallback (replace failed <img> with gradient + icon)
+    document.querySelectorAll('img[data-fallback-icon]').forEach(img => {
+      img.addEventListener('error', () => {
+        const parent = img.parentElement;
+        img.remove();
+        parent.classList.add('fallback-bg');
+        const icon = document.createElement('div');
+        icon.className = 'absolute inset-0 flex items-center justify-center';
+        icon.style.color = '#ede7db';
+        icon.innerHTML = `<i class=\"fa-solid fa-${img.dataset.fallbackIcon} text-6xl\"></i>`;
+        parent.appendChild(icon);
+      }, { once: true });
+    });
+  </script>
+</body>
+</html>
